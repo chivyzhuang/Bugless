@@ -31,5 +31,21 @@ def upload_success(request):
     return HttpResponse("Upload success.")
 
 
+def get_apk(request):
+    l = request.path.split('/')
+    if len(l) == 6:
+        return download_file(
+                request,
+                'Storage/apk/%s' % l[4]
+        )
+    return HttpResponse('Error.')
+
+
 def get_patch(request):
-    return download_file(request, 'Storage/apk/1.apk')
+    l = request.path.split('/')
+    if len(l) == 6:
+        return download_file(
+                request,
+                'Storage/patch/%s' % l[4]
+        )
+    return HttpResponse('Error.')
