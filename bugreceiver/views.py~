@@ -1,0 +1,11 @@
+import message_pb2
+import sys
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def receive_bug(request):
+	bug_report = message_pb2.BugReport()
+	#bug_report.phone_system_sdk_version = 20
+	bug_report.ParseFromString(request.POST['message'].encode("utf-8"))
+	#bug_report.phone_system_sdk_version = request.POST['message']
+	return HttpResponse("You're looking at poll %s." % bug_report.phone_system_sdk_version)
