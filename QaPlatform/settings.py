@@ -22,6 +22,7 @@ MANAGERS = ADMINS
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -30,6 +31,16 @@ DATABASES = {
         'PASSWORD': 'Rki2qawyRBVNj6UwFTBlcK3SsF',                  # Not used with sqlite3.
         'HOST': 'ec2-54-197-241-95.compute-1.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'qa_platform',
+	'USER': 'qaer',
+	'PASSWORD': 'qaer',
+	'HOST': '/var/run/mysqld/mysqld.sock'
     }
 }
 
@@ -109,6 +120,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(BASE_DIR, 'template'),
 )
 
 
