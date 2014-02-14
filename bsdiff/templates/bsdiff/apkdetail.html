@@ -31,29 +31,34 @@
     {% include "bsdiff/header.html" %}
 						
     <div class="container" align="center">
-	
-      <form role="form" enctype="multipart/form-data" method="post" action="{% url 'bsdiff:upload_file' %}" style="width: 50%" align="left">
-	{% csrf_token %}
-        <h2 class="form-signin-heading">上传Apk文件</h2>
-	<div class="input-group input-group-lg">
-		<span class="input-group-addon">包名</span>
-        	<input type="text" class="form-control" name="pkgname" required autofocus placeholder="例如：com.example">
-	</div>
-	<br>
-	<div class="input-group input-group-lg">
-		<span class="input-group-addon">版本</span>
-        	<input type="text" class="form-control" name="version"required autofocus placeholder="请输入版本号，如：1">
-	</div>
-	<p>{{ form.non_field_errors }}</p>
-	<p>
-		{{ form.docfile.errors }}
-		{{ form.file }}
-	</p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">上传</button>
-      </form>
-
+		{% if apk_list %}
+			<h2 class="sub-header">已上传的Apk文件</h2>
+			<div class="table-responsive">
+		    <table class="table table-striped">
+		      <thead>
+		        <tr>
+		          <th>包名</th>
+		          <th>版本号</th>
+		          <th>文件位置</th>
+		          <th>MD5</th>
+		        </tr>
+		      </thead>
+		      <tbody>
+					{% for apk in apk_list %}
+		        <tr>
+		          <td>{{ apk.package_name }}</td>
+		          <td>{{ apk.version_code }}</td>
+		          <td>{{ apk.file_path }}</td>
+		          <td>{{ apk.file_md5 }}</td>
+		        </tr>
+					{% endfor %}
+		      </tbody>
+		    </table>
+		  </div>
     </div> <!-- /container -->
-
+		{% else %}
+    	<h2 class="sub-header">未上传Apk文件</h2>
+		{% endif %}
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

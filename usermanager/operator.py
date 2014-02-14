@@ -15,3 +15,4 @@ def update_user(unique_id, product, model, system_sdk):
                 system_sdk=system_sdk
                 )
     user.save()
+    return user

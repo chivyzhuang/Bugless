@@ -1,4 +1,3 @@
-import os
 from bsdiff.util import bsdiff
 from hashlib import md5
 from bsdiff.models import ApkPackage, Patch
@@ -53,10 +52,6 @@ def generate_patch(apk_pkg, is_replace):
     else:
         delete_list = apk_list[0].patch_set.all()
     for patch in delete_list:
-        try:
-            os.remove(patch.file_path)
-        except OSError:
-            pass
         patch.delete()
     # generate patch file for each pre apk file
     for pre_apk in apk_list:
