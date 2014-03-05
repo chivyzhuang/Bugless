@@ -1,4 +1,5 @@
 import os
+import bsdiff4
 from bsdiff.util import bsdiff
 from hashlib import md5
 from bsdiff.models import ApkPackage, Patch, ApkMark
@@ -112,8 +113,8 @@ def get_patch(
         os.makedirs(dir_path)
     # generate patch
     old_file = 'Storage/apk/%s/%s.apk' %\
-            (package_name, version_code)
+            (package_name, pre_version_code)
     patch_file = 'Storage/patch/%s/%s_%s' %\
             (package_name, pre_version_code, version_code)
-    bsdiff(old_file, new_file, patch_file)
+    bsdiff4.file_diff(old_file, new_file, patch_file)
     return patch_file
