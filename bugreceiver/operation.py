@@ -1,27 +1,34 @@
 # -*- coding: utf-8 -*-
-import message_pb2
+import bugreport_pb2, time
+from django.utils import timezone
 from bugreceiver.models import JavaBug
-from usermanager.models import User
+from bsdiff.models import ApkPackage
 from usermanager.operator import update_user
 
 
 def process_java_bug_report(report, tag, user):
     try:
-        record = JavaBug.objects.get(
+        apk = ApkPackage.objects.get(
                 package_name=report.app_package_name,
-                version_code=report.app_version_code,
+                version_code=report.app_version_code
+        )
+    except ApkPackage.DoesNotExist:
+        return True
+    try:
+        record = apk.javabug_set.get(
                 tag=tag.tag
         )
         record.count += tag.count
-        return record.is_complete
+        record.save()
+        return record.is_complete == 'Y'
     except JavaBug.DoesNotExist:
         record = JavaBug.objects.create(
-                package_name=report.app_package_name,
-                version_code=report.app_version_code,
+                apk=apk,
                 tag=tag.tag,
-                report_user=user
+                report_user=user,
+                date=timezone.now()
         )
-        return True
+        return False
 
 
 def process_native_bug_report(report, tag, user):
@@ -33,15 +40,15 @@ def process_kernel_bug_report(report, tag, user):
 
 
 processor = {
-        message_pb2.JAVA: process_java_bug_report,
-        message_pb2.NATIVE: process_native_bug_report,
-        message_pb2.KERNEL: process_kernel_bug_report
+        bugreport_pb2.JAVA: process_java_bug_report,
+        bugreport_pb2.NATIVE: process_native_bug_report,
+        bugreport_pb2.KERNEL: process_kernel_bug_report
 }
 
 
 def filter_bug_report(message):
     # get the bug report object
-    bug_report = message_pb2.BugReport()
+    bug_report = bugreport_pb2.BugReport()
     bug_report.ParseFromString(message)
     # process_user
     user = update_user(
@@ -51,7 +58,7 @@ def filter_bug_report(message):
             bug_report.phone_system_sdk_version
     )
     # process_report
-    report_feed = message_pb2.ReportFeed()
+    report_feed = bugreport_pb2.ReportFeed()
     for tag in bug_report.tags:
         bug_feed = report_feed.feeds.add()
         bug_feed.type = tag.type
@@ -60,5 +67,31 @@ def filter_bug_report(message):
     return report_feed.SerializeToString()
 
 
+def process_java_bug_detail(message):
+    java_bug = bugreport_pb2.JavaBug()
+    java_bug.ParseFromString(message)
+    # save java bug detail
+    try:
+        # write file
+        file_path = 'Storage/bug/java/%s' % time.time()
+        file_object = open(file_path, 'w')
+        file_object.write(java_bug.detail_info)
+        file_object.close()
+        # change record
+        record = ApkPackage.objects.get(
+                package_name=java_bug.app_package_name,
+                version_code=java_bug.app_version_code
+        ).javabug_set.get(
+                tag=java_bug.tag
+        )
+        record.brief = java_bug.brief_info
+        record.report_file_path = file_path
+        record.is_complete = 'Y'
+        record.save()
+    except ApkPackage.DoesNotExist, JavaBug.DoesNotExist:
+        return 'Error'
+    return 'Success'
+
+
 def testo():
-    return processor.get(message_pb2.JAVA)(message_pb2.BugReport.BugTag())
+    return processor.get(bugreport_pb2.JAVA)(bugreport_pb2.BugReport.BugTag())

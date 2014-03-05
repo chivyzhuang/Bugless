@@ -1,32 +1,49 @@
+# -*e coding: utf-8 -*-
+import string
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.views import generic
-from bsdiff.models import *
+from bsdiff.models import ApkPackage, Patch
 from bsdiff.forms import UploadFileForm
-from bsdiff.upload import handle_uploaded_apk_file
+from bsdiff.upload import handle_uploaded_apk_file, check_if_apk_expired
 from bsdiff.download import download_file
+from bsdiff.versionctr import check_update
+from django.views.decorators.csrf import csrf_exempt
 
 
 def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            # check if expired
+            if check_if_apk_expired(
+                    request.POST['pkgname'],
+                    string.atoi(request.POST['version'])
+                    ):
+                return render_to_response(
+                        'bsdiff/upload_fail.html',
+                        {'reason': 'Apk的版本号必须大于或等于最新的Apk'},
+                        context_instance=RequestContext(request)
+                        )
             handle_uploaded_apk_file(
                     request.FILES['file'],
                     request.POST['pkgname'],
-                    request.POST['version']
+                    string.atoi(request.POST['version'])
             )
-            return HttpResponseRedirect(reverse('bsdiff:upload_success'))
+            return render_to_response(
+                    'bsdiff/upload_success.html',
+                    context_instance=RequestContext(request)
+                    )
     else:
         form = UploadFileForm()
     return render_to_response(
             'bsdiff/upload.html',
             {'form': form},
             context_instance=RequestContext(request)
-    )
+            )
 
 
 class ApkDetail(generic.ListView):
@@ -34,7 +51,7 @@ class ApkDetail(generic.ListView):
     context_object_name = 'apk_list'
 
     def get_queryset(self):
-        return ApkPackage.objects.all() 
+        return ApkPackage.objects.all()
 
 
 class PatchDetail(generic.ListView):
@@ -44,25 +61,34 @@ class PatchDetail(generic.ListView):
     def get_queryset(self):
         return Patch.objects.all()
 
+
 def upload_success(request):
     return HttpResponse("Upload success.")
 
 
-def get_apk(request):
-    l = request.path.split('/')
-    if len(l) == 6:
-        return download_file(
-                request,
-                'Storage/apk/%s' % l[4]
-        )
-    return HttpResponse('Error.')
+def upload_fail(request, reason):
+    return HttpResponse('Upload failed, because:\n' + reason)
 
 
-def get_patch(request):
-    l = request.path.split('/')
-    if len(l) == 6:
-        return download_file(
-                request,
-                'Storage/patch/%s' % l[4]
-        )
-    return HttpResponse('Error.')
+def get_apk(request, pkg_name, f_name):
+    return download_file(
+            request,
+            'Storage/apk/%s/%s' % (pkg_name, f_name)
+    )
+
+
+def get_patch(request, pkg_name, f_name):
+    return download_file(
+            request,
+            'Storage/patch/%s/%s' % (pkg_name, f_name)
+    )
+
+
+@csrf_exempt
+def ask_update(request):
+    message = str(request.body)
+    if message:
+        ret = check_update(message)
+    else:
+        ret = 'Error'
+    return HttpResponse(ret)

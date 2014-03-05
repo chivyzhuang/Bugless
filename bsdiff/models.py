@@ -4,7 +4,7 @@ from django.db import models
 
 class ApkPackage(models.Model):
     package_name = models.CharField(max_length=50)
-    version_code = models.IntegerField(default=0)
+    version_code = models.IntegerField(default=1)
     file_path = models.CharField(max_length=200)
     file_md5 = models.CharField(max_length=32)
 
@@ -18,6 +18,11 @@ class ApkPackage(models.Model):
 #    def __unicode__(self):
 #        return 'Type:' + self.bug_type + \
 #                " ReportLocation:" + self.report_file_path
+
+
+class ApkMark(models.Model):
+    package_name = models.CharField(max_length=50, primary_key=True)
+    version_code = models.IntegerField(default=1)
 
 
 class Patch(models.Model):
