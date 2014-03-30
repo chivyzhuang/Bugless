@@ -17,7 +17,6 @@ MANAGERS = ADMINS
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -38,6 +37,7 @@ DATABASES = {
 	'PORT': '3306'
     }
 }
+'''
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 
