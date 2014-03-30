@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="cn">
   <head>
-    <link rel="shortcut icon" href="/static/ico/favicon.ico">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.ico">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">    
 		<title>应用更新</title>
 
 		<!-- Bootstrap core CSS -->
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
-    <link href="/static/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/bootstrap-theme.min.css" rel="stylesheet">
 		<!-- Custom styles for this template -->
-    <link href="/static/css/theme.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/theme.css" rel="stylesheet">
 
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -28,43 +28,44 @@
 
   <body style="">
     
-    {% include "bsdiff/header.html" %}
+    {% include "header.html" %}
 						
     <div class="container" align="center">
 		{% if apk_list %}
-			<h2 class="sub-header">已上传的Apk文件</h2>
-			<div class="table-responsive">
-		    <table class="table table-striped">
-		      <thead>
-		        <tr>
-		          <th>包名</th>
-		          <th>版本号</th>
-		          <th>文件位置</th>
-		          <th>MD5</th>
-		        </tr>
-		      </thead>
-		      <tbody>
+		<h2 class="sub-header">已上传的Apk文件</h2>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>包名</th>
+						<th>版本号</th>
+						<th>文件位置</th>
+						<th>MD5</th>
+					</tr>
+				</thead>
+				
+				<tbody>
 					{% for apk in apk_list %}
-		        <tr>
-		          <td>{{ apk.package_name }}</td>
-		          <td>{{ apk.version_code }}</td>
-		          <td>{{ apk.file_path }}</td>
-		          <td>{{ apk.file_md5 }}</td>
-		        </tr>
+					<tr>
+						<td>{{ apk.package_name }}</td>
+						<td>{{ apk.version_code }}</td>
+						<td>{{ apk.file_path }}</td>
+						<td>{{ apk.file_md5 }}</td>
+					</tr>
 					{% endfor %}
-		      </tbody>
-		    </table>
-		  </div>
-    </div> <!-- /container -->
+				</tbody>
+			</table>
+		</div>
 		{% else %}
-    	<h2 class="sub-header">未上传Apk文件</h2>
+			<h2 class="sub-header">未上传Apk文件</h2>
 		{% endif %}
+	</div> <!-- /container -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-	<script src="/static/js/jquery-1.10.2.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/docs.min.js"></script>
+	<script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}js/docs.min.js"></script>
   </body>
 </html>

@@ -24,6 +24,18 @@ def receive_java_bug_detail(request):
     return HttpResponse(ret)
 
 
+@csrf_exempt
+def receive_native_bug(request):
+    f = request.FILES['upload_file_minidump']
+    destination = open('media/dump.txt', 'w+')
+    for chunk in f.chunks():
+        destination.write(chunk)
+    destination.write('\nprod:' + request.POST['prod'])
+    destination.write('\nver :' + request.POST['ver'])
+    destination.close()
+    return HttpResponse('EEE')
+
+
 def test(request):
     ret = testo()
     return HttpResponse(ret)

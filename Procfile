@@ -1,1 +1,1 @@
-web: gunicorn QaPlatform.wsgi
+web: gunicorn bugless.wsgi

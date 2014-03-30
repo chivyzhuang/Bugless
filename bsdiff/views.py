@@ -8,9 +8,7 @@ from django.http import HttpResponse
 from django.views import generic
 from bsdiff.models import ApkPackage, Patch
 from bsdiff.forms import UploadFileForm
-from bsdiff.upload import handle_uploaded_apk_file, check_if_apk_expired
-from bsdiff.download import download_file
-from bsdiff.versionctr import check_update
+from bsdiff.operation import handle_uploaded_apk_file, check_if_apk_expired
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -68,27 +66,3 @@ def upload_success(request):
 
 def upload_fail(request, reason):
     return HttpResponse('Upload failed, because:\n' + reason)
-
-
-def get_apk(request, pkg_name, f_name):
-    return download_file(
-            request,
-            'Storage/apk/%s/%s' % (pkg_name, f_name)
-    )
-
-
-def get_patch(request, pkg_name, f_name):
-    return download_file(
-            request,
-            'Storage/patch/%s/%s' % (pkg_name, f_name)
-    )
-
-
-@csrf_exempt
-def ask_update(request):
-    message = str(request.body)
-    if message:
-        ret = check_update(message)
-    else:
-        ret = 'Error'
-    return HttpResponse(ret)

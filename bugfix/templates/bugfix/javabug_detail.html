@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="cn">
+  <head>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.ico">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+		<title>缺陷查询</title>
+
+		<!-- Bootstrap core CSS -->
+    <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="{{ STATIC_URL }}css/bootstrap-theme.min.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+    <link href="{{ STATIC_URL }}css/theme.css" rel="stylesheet">
+
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+		<style id="holderjs-style" type="text/css"></style>
+  </head>
+
+	<body style="">
+
+		{% include "header.html" %}
+	    
+		<div class="container" align="center">
+			<h2 class="sub-header">缺陷详情</h2>
+
+			<div class="jumbotron" align="left">
+				<h3><span class="label label-info">发生次数</span></h3>
+		        <pre><font size="3"> {{ java_bug.count}}</pre>
+				<h3><span class="label label-info">错误摘要</span></h3>
+		        <pre><font size="3"> {{ java_bug.brief}}</pre>
+		        <h3><span class="label label-info">详细信息</span></h3>
+		        <pre><font size="2"> {{ java_bug.report_content}}</pre>
+		        <h3><span class="label label-info">是否完成修复</span></h3>
+		        <pre><font size="2"> {{ java_bug.is_fix}}</pre>
+		        <h3><span class="label label-info">是否完成修复</span></h3>
+		        <pre><font size="2"> {{ java_bug.is_fix}}</pre>
+		        <h3><span class="label label-info">首次出现时间</span></h3>
+		        <pre><font size="2"> {{ java_bug.date}}</pre>
+		        <h3><span class="label label-info">手机型号</span></h3>
+		        <pre><font size="2"> {{ java_bug.model}}</pre>
+		        <h3><span class="label label-info">手机系统版本</span></h3>
+		        <pre><font size="2"> {{ java_bug.system_sdk}}</pre>
+		        <h3><span class="label label-info">应用包名</span></h3>
+		        <pre><font size="2"> {{ java_bug.apk.package_name}}</pre>
+		        <h3><span class="label label-info">应用版本</span></h3>
+		        <pre><font size="2"> {{ java_bug.apk.version_code}}</pre>
+		    </div>
+				
+	    </div> <!-- /container -->
+
+	    <script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+	    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+	    <script src="{{ STATIC_URL }}js/docs.min.js"></script>
+
+	</body>
+</html>

@@ -10,10 +10,4 @@ urlpatterns = patterns('',
     url(r'^detail/apk/$', views.ApkDetail.as_view(), name='detail_apk'),
     # detail of patchs
     url(r'^detail/patch/$', views.PatchDetail.as_view(), name='detail_patch'),
-    # download apk file
-    url(r'^download/apk/(?P<pkg_name>.+)/(?P<f_name>.+)/$', views.get_apk, name='get_apk'),
-    # download patch file
-    url(r'^download/patch/(?P<pkg_name>.+)/(?P<f_name>.+)/$', views.get_patch, name='get_patch'),
-    # ask update
-    url(r'^update/$', views.ask_update, name='ask_update'),
 )
