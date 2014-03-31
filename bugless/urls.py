@@ -1,12 +1,14 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from views import HomeView
+from django.views.generic import TemplateView
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^2048$', TemplateView.as_view(template_name="2048.html"), name='2048'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^usermanager/', include('usermanager.urls', namespace='usermanager')),
     url(r'^download/', include('download.urls', namespace='download')),

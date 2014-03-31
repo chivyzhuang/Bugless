@@ -25,12 +25,18 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">应用更新<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-            	    <li><a href="{% url 'bsdiff:detail_apk' %}">查看Apk文件详情</a></li>
-            	    <li class="divider"></li>
-                    <li><a href="{% url 'bsdiff:detail_patch' %}">查看Patch文件详情</a></li>
-                    <li class="divider"></li>
-                    <li><a href="{% url 'bsdiff:upload_file' %}">上传Apk文件</a></li>
-                </ul>
+                	    <li><a href="{% url 'bsdiff:detail_apk' %}">查看Apk文件详情</a></li>
+                	    <li class="divider"></li>
+                        <li><a href="{% url 'bsdiff:detail_patch' %}">查看Patch文件详情</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'bsdiff:upload_file' %}">上传Apk文件</a></li>
+                    </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">休闲一下<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url '2048' %}">2048</a></li>
+                    </ul>
             </li>
         </ul>
     </div><!--/.nav-collapse -->
