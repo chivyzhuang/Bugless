@@ -1,7 +1,8 @@
 @import url(fonts/clear-sans.css);
 
 body {
-  margin: 80px 0; }
+  margin: 30px 0;
+  background: #faf8ef; }
 
 input {
   display: inline-block;
@@ -82,6 +83,7 @@ h1.title2048 {
   padding: 15px 25px;
   font-size: 25px;
   height: 60px;
+  min-width: 100px;
   line-height: 47px;
   font-weight: bold;
   border-radius: 3px;
@@ -593,27 +595,25 @@ hr {
     vertical-align: middle; }
 
 @media screen and (max-width: 520px) {
-  html, body {
-    font-size: 15px; }
 
   body {
-    margin: 20px 0;
-    padding: 0 20px; }
 
-  h1.title {
+  }
+
+  h1.title2048 {
     font-size: 27px;
     margin-top: 15px; }
 
-  .container {
+  .container2048 {
     width: 280px;
     margin: 0 auto; }
 
   .score-container, .best-container {
     margin-top: 0;
     padding: 15px 10px;
-    min-width: 40px; }
+    min-width: 60px; }
 
-  .heading {
+  .heading2048 {
     margin-bottom: 10px; }
 
   .game-intro {
