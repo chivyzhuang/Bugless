@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import bugreport_pb2, time
 from django.utils import timezone
-from bugreceiver.models import JavaBug
+from bugreceiver.models import JavaBug, NativeBug
 from bsdiff.models import ApkPackage
 
 
@@ -32,11 +32,33 @@ def process_java_bug_report(report, tag):
 
 
 def process_native_bug_report(report, tag):
-    return 'b'
+    try:
+        apk = ApkPackage.objects.get(
+                package_name=report.app_package_name,
+                version_code=report.app_version_code
+        )
+    except ApkPackage.DoesNotExist:
+        return True
+    try:
+        record = apk.nativebug_set.get(
+                tag=tag.tag
+        )
+        record.count += tag.count
+        record.save()
+        return record.is_complete == 'Y'
+    except NativeBug.DoesNotExist:
+        record = NativeBug.objects.create(
+                apk=apk,
+                tag=tag.tag,
+                model=report.phone_model,
+                system_sdk=report.phone_system_sdk_version,
+                date=timezone.now()
+        )
+        return False
 
 
 def process_kernel_bug_report(report, tag):
-    return 'c'
+    return True
 
 
 processor = {
@@ -46,7 +68,7 @@ processor = {
 }
 
 
-def filter_bug_report(message):
+def process_bug_report(message):
     # get the bug report object
     bug_report = bugreport_pb2.BugReport()
     bug_report.ParseFromString(message)
@@ -61,7 +83,7 @@ def filter_bug_report(message):
 
 
 def process_java_bug_detail(message):
-    java_bug = bugreport_pb2.JavaBug()
+    java_bug = bugreport_pb2.PJavaBug()
     java_bug.ParseFromString(message)
     # save java bug detail
     try:
@@ -77,6 +99,26 @@ def process_java_bug_detail(message):
         record.is_complete = 'Y'
         record.save()
     except ApkPackage.DoesNotExist, JavaBug.DoesNotExist:
+        return 'Error'
+    return 'Success'
+
+
+def process_native_bug_detail(message):
+    native_bug = bugreport_pb2.PNativeBug()
+    native_bug.ParseFromString(message)
+    # save native bug detail
+    try:
+        # change record
+        record = ApkPackage.objects.get(
+                package_name=native_bug.app_package_name,
+                version_code=native_bug.app_version_code
+        ).nativebug_set.get(
+                tag=native_bug.tag
+        )
+        record.report_content = native_bug.detail_info
+        record.is_complete = 'Y'
+        record.save()
+    except ApkPackage.DoesNotExist, NativeBug.DoesNotExist:
         return 'Error'
     return 'Success'
 

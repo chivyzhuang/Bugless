@@ -17,11 +17,14 @@
             {% else %}
             <li><a href="{% url 'home' %}">项目概况</a></li>
             {% endifequal %}
-            {% ifequal index 'bug' %}
-            <li class="active"><a href="{% url 'bugfix:list_java_bug' %}">缺陷查询</a></li>
-            {% else %}
-            <li><a href="{% url 'bugfix:list_java_bug' %}">缺陷查询</a></li>
-            {% endifequal %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">缺陷查询<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'bugfix:list_java_bug' %}">Java层缺陷</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'bugfix:list_native_bug' %}">Native层缺陷</a></li>
+                    </ul>
+            </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">应用更新<b class="caret"></b></a>
                     <ul class="dropdown-menu">
