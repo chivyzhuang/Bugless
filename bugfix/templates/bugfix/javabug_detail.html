@@ -35,25 +35,23 @@
 
 			<div class="jumbotron" align="left">
 				<h3><span class="label label-info">发生次数</span></h3>
-		        <pre><font size="3"> {{ java_bug.count}}</pre>
+		        <pre><font size="3">{{ java_bug.count}}</pre>
 				<h3><span class="label label-info">错误摘要</span></h3>
-		        <pre><font size="3"> {{ java_bug.brief}}</pre>
+		        <pre><font size="3">{{ java_bug.exception_type }} in {{ java_bug.source_class }}.{{ java_bug.source_method }}()</pre>
 		        <h3><span class="label label-info">详细信息</span></h3>
-		        <pre><font size="2"> {{ java_bug.report_content}}</pre>
+		        <pre><font size="2">{{ java_bug.report_content}}</pre>
 		        <h3><span class="label label-info">是否完成修复</span></h3>
-		        <pre><font size="2"> {{ java_bug.is_fix}}</pre>
-		        <h3><span class="label label-info">是否完成修复</span></h3>
-		        <pre><font size="2"> {{ java_bug.is_fix}}</pre>
+		        <pre><font size="2">{{ java_bug.is_fix}}</pre>
 		        <h3><span class="label label-info">首次出现时间</span></h3>
-		        <pre><font size="2"> {{ java_bug.date}}</pre>
+		        <pre><font size="2">{{ java_bug.date}}</pre>
 		        <h3><span class="label label-info">手机型号</span></h3>
-		        <pre><font size="2"> {{ java_bug.model}}</pre>
+		        <pre><font size="2">{{ java_bug.model}}</pre>
 		        <h3><span class="label label-info">手机系统版本</span></h3>
-		        <pre><font size="2"> {{ java_bug.system_sdk}}</pre>
+		        <pre><font size="2">{{ java_bug.system_sdk}}</pre>
 		        <h3><span class="label label-info">应用包名</span></h3>
-		        <pre><font size="2"> {{ java_bug.apk.package_name}}</pre>
+		        <pre><font size="2">{{ java_bug.apk.package_name}}</pre>
 		        <h3><span class="label label-info">应用版本</span></h3>
-		        <pre><font size="2"> {{ java_bug.apk.version_code}}</pre>
+		        <pre><font size="2">{{ java_bug.apk.version_code}}</pre>
 		    </div>
 				
 	    </div> <!-- /container -->

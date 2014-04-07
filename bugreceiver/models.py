@@ -7,7 +7,10 @@ class JavaBug(models.Model):
     count = models.IntegerField(default=1)
     apk = models.ForeignKey(ApkPackage)
     report_content = models.TextField()
-    brief = models.CharField(max_length=80)
+    exception_type = models.CharField(max_length=50)
+    source_class = models.CharField(max_length=50)
+    source_method = models.CharField(max_length=50)
+    source_line = models.IntegerField(default=0)
     tag = models.CharField(max_length=32)
     # 'Y' or 'N'
     is_fix = models.CharField(max_length=1, default='N')  

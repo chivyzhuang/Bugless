@@ -50,7 +50,7 @@
 					<tr>
 						<td>{{ bug.apk.package_name }}</td>
 						<td>{{ bug.apk.version_code }}</td>
-						<td><a href="{% url 'bugfix:java_bug_detail' bug.id %}">{{ bug.brief }}</a></td>
+						<td><a href="{% url 'bugfix:java_bug_detail' bug.id %}">{{ bug.exception_type }} in {{ bug.source_class }}.{{ bug.source_method }}()</a></td>
 						<td>{{ bug.count }}</td>
 						<td>{{ bug.is_fix }}</td>
 					</tr>

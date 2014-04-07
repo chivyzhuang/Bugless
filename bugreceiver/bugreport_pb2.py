@@ -14,7 +14,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='bugreport.proto',
   package='',
-  serialized_pb='\n\x0f\x62ugreport.proto\"\x83\x02\n\tBugReport\x12 \n\x18phone_system_sdk_version\x18\x01 \x02(\x05\x12\x13\n\x0bphone_model\x18\x02 \x01(\t\x12\x15\n\rphone_product\x18\x03 \x01(\t\x12\x18\n\x10\x61pp_package_name\x18\x04 \x02(\t\x12\x18\n\x10\x61pp_version_code\x18\x05 \x02(\x05\x12\x0f\n\x07user_id\x18\x06 \x02(\t\x12\x1f\n\x04tags\x18\x07 \x03(\x0b\x32\x11.BugReport.BugTag\x1a\x42\n\x06\x42ugTag\x12\r\n\x05\x63ount\x18\x01 \x02(\x05\x12\x1c\n\x04type\x18\x02 \x02(\x0e\x32\x08.BugType:\x04JAVA\x12\x0b\n\x03tag\x18\x03 \x02(\t\"v\n\nReportFeed\x12\"\n\x05\x66\x65\x65\x64s\x18\x01 \x03(\x0b\x32\x13.ReportFeed.BugFeed\x1a\x44\n\x07\x42ugFeed\x12\x1c\n\x04type\x18\x01 \x02(\x0e\x32\x08.BugType:\x04JAVA\x12\x0b\n\x03tag\x18\x02 \x02(\t\x12\x0e\n\x06\x61nswer\x18\x03 \x02(\x08\"t\n\x08PJavaBug\x12\x12\n\nbrief_info\x18\x01 \x02(\t\x12\x13\n\x0b\x64\x65tail_info\x18\x02 \x02(\t\x12\x0b\n\x03tag\x18\x03 \x02(\t\x12\x18\n\x10\x61pp_package_name\x18\x04 \x02(\t\x12\x18\n\x10\x61pp_version_code\x18\x05 \x02(\x05\"b\n\nPNativeBug\x12\x13\n\x0b\x64\x65tail_info\x18\x01 \x02(\t\x12\x0b\n\x03tag\x18\x02 \x02(\t\x12\x18\n\x10\x61pp_package_name\x18\x03 \x02(\t\x12\x18\n\x10\x61pp_version_code\x18\x04 \x02(\x05*+\n\x07\x42ugType\x12\x08\n\x04JAVA\x10\x00\x12\n\n\x06NATIVE\x10\x01\x12\n\n\x06KERNEL\x10\x02\x42+\n\x17\x63om.qasdk.message.modelB\x10\x42ugReportMessage')
+  serialized_pb='\n\x0f\x62ugreport.proto\"\x83\x02\n\tBugReport\x12 \n\x18phone_system_sdk_version\x18\x01 \x02(\x05\x12\x13\n\x0bphone_model\x18\x02 \x01(\t\x12\x15\n\rphone_product\x18\x03 \x01(\t\x12\x18\n\x10\x61pp_package_name\x18\x04 \x02(\t\x12\x18\n\x10\x61pp_version_code\x18\x05 \x02(\x05\x12\x0f\n\x07user_id\x18\x06 \x02(\t\x12\x1f\n\x04tags\x18\x07 \x03(\x0b\x32\x11.BugReport.BugTag\x1a\x42\n\x06\x42ugTag\x12\r\n\x05\x63ount\x18\x01 \x02(\x05\x12\x1c\n\x04type\x18\x02 \x02(\x0e\x32\x08.BugType:\x04JAVA\x12\x0b\n\x03tag\x18\x03 \x02(\t\"v\n\nReportFeed\x12\"\n\x05\x66\x65\x65\x64s\x18\x01 \x03(\x0b\x32\x13.ReportFeed.BugFeed\x1a\x44\n\x07\x42ugFeed\x12\x1c\n\x04type\x18\x01 \x02(\x0e\x32\x08.BugType:\x04JAVA\x12\x0b\n\x03tag\x18\x02 \x02(\t\x12\x0e\n\x06\x61nswer\x18\x03 \x02(\x08\"\xba\x01\n\x08PJavaBug\x12\x16\n\x0e\x65xception_type\x18\x01 \x02(\t\x12\x14\n\x0csource_class\x18\x02 \x02(\t\x12\x15\n\rsource_method\x18\x03 \x02(\t\x12\x13\n\x0bsource_line\x18\x04 \x02(\x05\x12\x13\n\x0b\x64\x65tail_info\x18\x05 \x02(\t\x12\x0b\n\x03tag\x18\x06 \x02(\t\x12\x18\n\x10\x61pp_package_name\x18\x07 \x02(\t\x12\x18\n\x10\x61pp_version_code\x18\x08 \x02(\x05\"b\n\nPNativeBug\x12\x13\n\x0b\x64\x65tail_info\x18\x01 \x02(\t\x12\x0b\n\x03tag\x18\x02 \x02(\t\x12\x18\n\x10\x61pp_package_name\x18\x03 \x02(\t\x12\x18\n\x10\x61pp_version_code\x18\x04 \x02(\x05*+\n\x07\x42ugType\x12\x08\n\x04JAVA\x10\x00\x12\n\n\x06NATIVE\x10\x01\x12\n\n\x06KERNEL\x10\x02\x42+\n\x17\x63om.qasdk.message.modelB\x10\x42ugReportMessage')
 
 _BUGTYPE = _descriptor.EnumDescriptor(
   name='BugType',
@@ -37,8 +37,8 @@ _BUGTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=619,
-  serialized_end=662,
+  serialized_start=690,
+  serialized_end=733,
 )
 
 BugType = enum_type_wrapper.EnumTypeWrapper(_BUGTYPE)
@@ -236,36 +236,57 @@ _PJAVABUG = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='brief_info', full_name='PJavaBug.brief_info', index=0,
+      name='exception_type', full_name='PJavaBug.exception_type', index=0,
       number=1, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='detail_info', full_name='PJavaBug.detail_info', index=1,
+      name='source_class', full_name='PJavaBug.source_class', index=1,
       number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='tag', full_name='PJavaBug.tag', index=2,
+      name='source_method', full_name='PJavaBug.source_method', index=2,
       number=3, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='app_package_name', full_name='PJavaBug.app_package_name', index=3,
-      number=4, type=9, cpp_type=9, label=2,
+      name='source_line', full_name='PJavaBug.source_line', index=3,
+      number=4, type=5, cpp_type=1, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='detail_info', full_name='PJavaBug.detail_info', index=4,
+      number=5, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=unicode("", "utf-8"),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='app_version_code', full_name='PJavaBug.app_version_code', index=4,
-      number=5, type=5, cpp_type=1, label=2,
+      name='tag', full_name='PJavaBug.tag', index=5,
+      number=6, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='app_package_name', full_name='PJavaBug.app_package_name', index=6,
+      number=7, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='app_version_code', full_name='PJavaBug.app_version_code', index=7,
+      number=8, type=5, cpp_type=1, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -279,8 +300,8 @@ _PJAVABUG = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=401,
-  serialized_end=517,
+  serialized_start=402,
+  serialized_end=588,
 )
 
 
@@ -328,8 +349,8 @@ _PNATIVEBUG = _descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=519,
-  serialized_end=617,
+  serialized_start=590,
+  serialized_end=688,
 )
 
 _BUGREPORT_BUGTAG.fields_by_name['type'].enum_type = _BUGTYPE

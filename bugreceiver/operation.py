@@ -94,7 +94,10 @@ def process_java_bug_detail(message):
         ).javabug_set.get(
                 tag=java_bug.tag
         )
-        record.brief = java_bug.brief_info
+        record.exception_type = java_bug.exception_type
+        record.source_class = java_bug.source_class
+        record.source_method = java_bug.source_method
+        record.source_line = java_bug.source_line
         record.report_content = java_bug.detail_info
         record.is_complete = 'Y'
         record.save()
