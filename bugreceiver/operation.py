@@ -24,6 +24,7 @@ def process_java_bug_report(report, tag):
         record = JavaBug.objects.create(
                 apk=apk,
                 tag=tag.tag,
+                count=tag.count,
                 model=report.phone_model,
                 system_sdk=report.phone_system_sdk_version,
                 date=timezone.now()
