@@ -8,8 +8,9 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+    <div class="row row-offcanvas row-offcanvas-left">
+
+        <div class="col-sm-3 col-md-2 sidebar" id="sidebar" role="navigation">
             <ul class="nav nav-sidebar">
                 {% ifequal sidebar_index 'overview' %}
                 <li class="active"><a href="{% url 'accounts:profile_welcome' %}">总览</a></li>
@@ -40,8 +41,13 @@
         </div>
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <p class="pull-top visible-xs">
+                <span class="glyphicon glyphicon-list btn-xs" style="font-size: 20px" data-toggle="offcanvas"></span>
+            </p>
             {% block right_content %}{% endblock %}
         </div>
     </div>
 </div>
+<script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/offcanvas.js"></script>
 {% endblock %}
