@@ -89,7 +89,7 @@ class AppEditView(TemplateView):
                         user=user,
                         mark=apk_mark)
                 except Management.DoesNotExist:
-                    management = Management(
+                    management = Management.objects.create(
                         mark=apk_mark, 
                         user=user,
                         identity='M')
