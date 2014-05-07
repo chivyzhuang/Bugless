@@ -1,0 +1,54 @@
+{% extends "accounts/profile_base.html" %}
+
+{% block right_content %}
+<h1 class="page-header">欢迎你，{{ user }} ~</h1>
+
+<h3>你可以</h3>
+<ul>
+    <li><h4>上传最新的应用包 <span class="glyphicon glyphicon-cloud-upload"></span><h4></li>
+    <li><h4>查看统计的应用缺陷信息 <span class="glyphicon glyphicon-screenshot"></span><h4></li>
+    <li><h4>管理你的应用列表 <span class="glyphicon glyphicon-list"></span><h4></li>
+    <li><h4>提交修复包 <span class="glyphicon glyphicon-wrench"></span><h4></li>
+    <li><h4>…<h4></li>
+</ul>
+
+<h2 class="sub-header">应用列表</h2>
+{% if management_list %}
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>应用名称</th>
+        <th>应用包名</th>
+        <th>最新版本号</th>
+        <th>身份</th>
+    </tr>
+  </thead>
+  <tbody>
+        {% for management in management_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ management.mark.app_name }}</td>
+            <td>{{ management.mark.package_name }}</td>
+            {% ifequal management.mark.version_code 0 %}
+                <td><a href="{% url 'bsdiff:upload_file' %}">还未提交第一个版本</a></td>
+            {% else %}
+                <td>{{ management.mark.version_code }}</td>
+            {% endifequal %}
+            {% ifequal management.identity 'O' %}
+                <td>管理员 <a style="color: black" href="{% url 'accounts:edit_app' management.mark.package_name %}">
+                    <span class="glyphicon glyphicon-pencil"></span></a>
+                </td>
+            {% else %}
+                <td>成员</td>
+            {% endifequal %}
+        </tr>
+        {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+    <h4 class="sub-header">未添加任何应用</h4>
+{% endif %}
+{% endblock %}

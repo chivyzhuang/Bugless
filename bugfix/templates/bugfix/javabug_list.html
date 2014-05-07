@@ -1,73 +1,38 @@
-<!DOCTYPE html>
-<html lang="cn">
-  <head>
-    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.ico">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
-		<title>缺陷查询</title>
+{% extends "base.html" %}
 
-		<!-- Bootstrap core CSS -->
-    <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap theme -->
-    <link href="{{ STATIC_URL }}css/bootstrap-theme.min.css" rel="stylesheet">
-		<!-- Custom styles for this template -->
-    <link href="{{ STATIC_URL }}css/theme.css" rel="stylesheet">
+{% block title %}缺陷查询{% endblock %}
 
+{% block content %}
+<div class="container" align="center">
+	{% if bug_list %}
+	<h2 class="sub-header">缺陷查询</h2>
+	<div class="table-responsive">
+	    <table class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>包名</th>
+					<th>应用版本</th>
+					<th>错误摘要</th>
+					<th>出现次数</th>
+					<th>是否修复</th>
+				</tr>
+			</thead>
 
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-		<style id="holderjs-style" type="text/css"></style>
-  </head>
-
-  <body style="">
-
-	{% include "header.html" %}
-    
-    <div class="container" align="center">
-    	{% if bug_list %}
-		<h2 class="sub-header">缺陷查询</h2>
-		<div class="table-responsive">
-		    <table class="table table-striped table-bordered table-hover">
-				<thead>
-					<tr>
-						<th>包名</th>
-						<th>应用版本</th>
-						<th>错误摘要</th>
-						<th>出现次数</th>
-						<th>是否修复</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					{% for bug in bug_list %}
-					<tr>
-						<td>{{ bug.apk.package_name }}</td>
-						<td>{{ bug.apk.version_code }}</td>
-						<td><a href="{% url 'bugfix:java_bug_detail' bug.id %}">{{ bug.exception_type }} in {{ bug.source_class }}.{{ bug.source_method }}()</a></td>
-						<td>{{ bug.count }}</td>
-						<td>{{ bug.is_fix }}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-		    </table>
-	  	</div>
-	  	{% else %}
-			<h2 class="sub-header">未收集到缺陷</h2>
-		{% endif %}
-    </div> <!-- /container -->
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-	<script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}js/docs.min.js"></script>
-  </body>
-</html>
+			<tbody>
+				{% for bug in bug_list %}
+				<tr>
+					<td>{{ bug.apk.package_name }}</td>
+					<td>{{ bug.apk.version_code }}</td>
+					<td><a href="{% url 'bugfix:java_bug_detail' bug.id %}">{{ bug.exception_type }} in {{ bug.source_class }}.{{ bug.source_method }}()</a></td>
+					<td>{{ bug.count }}</td>
+					<td>{{ bug.is_fix }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+	    </table>
+  	</div>
+  	{% else %}
+		<h2 class="sub-header">未收集到缺陷</h2>
+	{% endif %}
+</div>
+{% endblock %}

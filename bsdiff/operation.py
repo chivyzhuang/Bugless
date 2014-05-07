@@ -1,24 +1,30 @@
+# -*e coding: utf-8 -*-
 import os, bsdiff4
 from hashlib import md5
 from bsdiff.models import ApkPackage, Patch, ApkMark
 from gfunction.operation import get_apk_dir_path, get_patch_dir_path, get_apk_path, get_patch_path
 
 
-def check_if_apk_expired(package_name, version_code):
+def check_if_apk_valid(package_name, version_code):
+    if version_code <= 0:
+        return False, '应用的版本号必须大于0'
     try:
-        mark = ApkMark.objects.get(pk=package_name)
+        mark = ApkMark.objects.get(package_name=package_name)
     except ApkMark.DoesNotExist:
-        return False
-    return mark.version_code > version_code
+        return False, '你还没有添加这个应用'
+    if mark.version_code <= version_code:
+        return True, ''
+    return False, '应用的新版本必须大于或等于目前最新版本号(%d)' % mark.version_code
 
 
 def update_apk_mark(package_name, version_code):
     try:
-        mark = ApkMark.objects.get(pk=package_name)
+        mark = ApkMark.objects.get(package_name=package_name)
         mark.version_code = version_code
         mark.save()
+        return mark
     except ApkMark.DoesNotExist:
-        ApkMark.objects.create(
+        return ApkMark.objects.create(
                 package_name=package_name,
                 version_code=version_code
                 )
@@ -36,7 +42,8 @@ def handle_uploaded_apk_file(f, package_name, version_code):
         is_replace = False
         apk_pkg = ApkPackage.objects.create(
                 package_name=package_name,
-                version_code=version_code
+                version_code=version_code,
+                target_mark=update_apk_mark(package_name, version_code),
         )
     # mybe create dir
     dir_path = get_apk_dir_path(package_name)
@@ -50,9 +57,8 @@ def handle_uploaded_apk_file(f, package_name, version_code):
     destination.close()
     # get md5
     apk_pkg.file_md5 = get_file_md5(apk_pkg.file_path)
-    apk_pkg.save()
     # update mark
-    update_apk_mark(package_name, version_code)
+    apk_pkg.save()
     # generate patch
     generate_patch(apk_pkg, is_replace)
 

@@ -16,11 +16,15 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+DEFAULT_CHARSET = 'utf-8'
+
 MANAGERS = ADMINS
+
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -35,17 +39,17 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'qa_platform',
-	'USER': 'qaer',
-	'PASSWORD': 'qaer',
-	'PORT': '3306'
+        'NAME': 'bugless',
+    	'USER': 'qaer',
+    	'PASSWORD': 'qaer',
+    	'PORT': '3306'
     }
 }
-'''
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-cn'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -137,7 +141,12 @@ INSTALLED_APPS = (
     'download',
     'gfunction',
     'update',
+    'accounts',
 )
+
+
+from django.core.urlresolvers import reverse
+LOGIN_REDIRECT_URL = reverse('accounts:profile_welcome')
 
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

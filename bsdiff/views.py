@@ -1,29 +1,30 @@
 # -*e coding: utf-8 -*-
 import string
-from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
-from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.views import generic
 from bsdiff.models import ApkPackage, Patch
 from bsdiff.forms import UploadFileForm
-from bsdiff.operation import handle_uploaded_apk_file, check_if_apk_expired
-from django.views.decorators.csrf import csrf_exempt
+from bsdiff.operation import handle_uploaded_apk_file, check_if_apk_valid
+from django.utils.decorators import method_decorator
 
 
+@login_required
 def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            # check if expired
-            if check_if_apk_expired(
-                    request.POST['pkgname'],
-                    string.atoi(request.POST['version'])
-                    ):
+            # check if valid
+            is_valid, reason = check_if_apk_valid(
+                request.POST['pkgname'],
+                string.atoi(request.POST['version'])
+                )
+            if not is_valid:
                 return render_to_response(
                         'bsdiff/upload_fail.html',
-                        {'reason': 'Apk的版本号必须大于或等于最新的Apk'},
+                        {'reason': reason},
                         context_instance=RequestContext(request)
                         )
             handle_uploaded_apk_file(
@@ -48,16 +49,31 @@ class ApkDetail(generic.ListView):
     template_name = 'bsdiff/apkdetail.html'
     context_object_name = 'apk_list'
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ApkDetail, self).dispatch(*args, **kwargs)
+
     def get_queryset(self):
-        return ApkPackage.objects.all()
+        list = []
+        for apkmark in self.request.user.apkmark_set.all():
+            list += apkmark.apkpackage_set.all()
+        return list
 
 
 class PatchDetail(generic.ListView):
     template_name = 'bsdiff/patchdetail.html'
     context_object_name = 'patch_list'
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(PatchDetail, self).dispatch(*args, **kwargs)
+
     def get_queryset(self):
-        return Patch.objects.all()
+        list = []
+        for apkmark in self.request.user.apkmark_set.all():
+            for apk in apkmark.apkpackage_set.all():
+                list += apk.patch_set.all()
+        return list
 
 
 def upload_success(request):

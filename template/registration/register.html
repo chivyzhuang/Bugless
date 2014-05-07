@@ -1,0 +1,32 @@
+{% extends "base_without_login.html" %}
+
+{% block title %}注册{% endblock %}
+
+{% block head %}
+<link href="{{ STATIC_URL }}css/signup.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form class="form-signup" role="form" action='.' method='post'>
+        {% csrf_token %}
+        <h2 class="form-signup-heading" >注册</h2>
+        {% if form.errors.username %}
+        {{ form.errors.username }}
+        {% endif %}
+        {% if form.errors.email %}
+        {{ form.errors.email }}
+        {% endif %}
+        {% if form.errors.repassword %}
+        {{ form.errors.repassword }}
+        {% endif %}
+        <input type="text" class="form-control" name="username" placeholder="用户名" required="" autofocus="" id="username">
+        <input type="email" class="form-control" name="email" placeholder="电子邮件" required="" id="email">
+        <input type="password" class="form-control" name="password" placeholder="密码" required="" id="password">
+        <input type="password" class="form-control bottom" name="repassword" placeholder="重复密码" required="" id="repassword">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+        <a class="a-signin" href="{% url 'accounts:login' %}">已有账号？登录</a>
+        <input type="hidden" name="next" value="{{ next|escape }}" />
+    </form>
+</div>
+{% endblock %}

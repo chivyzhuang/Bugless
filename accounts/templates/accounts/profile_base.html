@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}个人信息{% endblock %}
+
+{% block head %}
+<link href="{{ STATIC_URL }}css/dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                {% ifequal sidebar_index 'overview' %}
+                <li class="active"><a href="{% url 'accounts:profile_welcome' %}">总览</a></li>
+                {% else %}
+                <li><a href="{% url 'accounts:profile_welcome' %}">总览</a></li>
+                {% endifequal %}
+                {% ifequal sidebar_index 'add_app' %}
+                <li class="active"><a href="{% url 'accounts:add_app' %}">创建应用</a></li>
+                {% else %}
+                <li><a href="{% url 'accounts:add_app' %}">创建应用</a></li>
+                {% endifequal %}
+                {% ifequal sidebar_index 'manage_app' %}
+                <li class="active"><a href="{% url 'accounts:app_list' %}">管理应用</a></li>
+                {% else %}
+                <li><a href="{% url 'accounts:app_list' %}">管理应用</a></li>
+                {% endifequal %}
+                {% ifequal sidebar_index 'profile' %}
+                <li class="active"><a href="{% url 'accounts:profile_welcome' %}">个人信息</a></li>
+                {% else %}
+                <li><a href="{% url 'accounts:profile_welcome' %}">个人信息</a></li>
+                {% endifequal %}
+                {% ifequal sidebar_index 'chang_pwd' %}
+                <li class="active"><a href="{% url 'accounts:profile_welcome' %}">更改密码</a></li>
+                {% else %}
+                <li><a href="{% url 'accounts:profile_welcome' %}">更改密码</a></li>
+                {% endifequal %}
+            </ul>
+        </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {% block right_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

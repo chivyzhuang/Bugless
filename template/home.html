@@ -1,52 +1,15 @@
-<!DOCTYPE html>
-<!-- saved from url=(0051)http://getbootstrap.com/examples/starter-template/# -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.ico">
+{% extends "base.html" %}
 
-    <title>移动应用开发质量控制平台</title>
+{% block title %}移动应用开发质量控制平台{% endblock %}
 
-    <!-- Bootstrap core CSS -->
-    <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap theme -->
-    <link href="{{ STATIC_URL }}css/bootstrap-theme.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="{{ STATIC_URL }}css/starter-template.css" rel="stylesheet">
+{% block content %}
+<div class="container">
 
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <div class="starter-template">
+    <h1>移动应用开发质量控制平台</h1><br>
+    <p class="lead">本平台针对Android开发进行设计，旨在搭建一个可以提供应用快速接入的质量控制平台。<br>
+					使得在产品发布后，开发团队能够通过缺陷反馈机制准确定位缺陷位置，并且通过服务器下发的指令维护应用，保障应用的质量。</p>
+  </div>
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body style="">
-
-    {% include "header.html" %}
-
-    <div class="container">
-
-      <div class="starter-template">
-        <h1>移动应用开发质量控制平台</h1><br>
-        <p class="lead">本平台针对Android开发进行设计，旨在搭建一个可以提供应用快速接入的质量控制平台。<br>
-						使得在产品发布后，开发团队能够通过缺陷反馈机制准确定位缺陷位置，并且通过服务器下发的指令维护应用，保障应用的质量。</p>
-      </div>
-
-    </div><!-- /.container -->
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-  
-
-</body></html>
+</div>
+{% endblock %}

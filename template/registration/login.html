@@ -1,0 +1,24 @@
+{% extends "base_without_login.html" %}
+
+{% block title %}登录{% endblock %}
+
+{% block head %}
+<link href="{{ STATIC_URL }}css/signin.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<form class="form-signin" role="form" action='.' method='post'>
+		{% csrf_token %}
+	    <h2 class="form-signin-heading" >登录</h2>
+	    {% if form.errors %}
+			<p class="error">用户名或密码不正确</p>
+		{% endif %}
+	    <input type="text" class="form-control" name="username" placeholder="用户名" required="" autofocus="" id="username">
+	    <input type="password" class="form-control" name="password" placeholder="密码" required="" id="password">
+	    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+	    <a class="a-register" href="{% url 'accounts:register' %}">还没有账号？快去注册</a>
+	    <input type="hidden" name="next" value="{{ next|escape }}" />
+  	</form>
+</div>
+{% endblock %}

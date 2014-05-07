@@ -1,0 +1,48 @@
+{% extends "accounts/profile_base.html" %}
+
+{% block right_content %}
+<h1 class="page-header">应用列表</h1>
+{% if management_list %}
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>应用名称</th>
+        <th>应用包名</th>
+        <th>最新版本号</th>
+        <th>身份</th>
+        <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+        {% for management in management_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ management.mark.app_name }}</td>
+            <td>{{ management.mark.package_name }}</td>
+            {% ifequal management.mark.version_code 0 %}
+                <td><a href="{% url 'bsdiff:upload_file' %}">还未提交第一个版本</a></td>
+            {% else %}
+                <td>{{ management.mark.version_code }}</td>
+            {% endifequal %}
+            {% ifequal management.identity 'O' %}
+                <td>管理员</td>
+                <td>
+                    <a style="color: black" href="{% url 'accounts:edit_app' management.mark.package_name %}">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </td>
+            {% else %}
+                <td>成员</td>
+                <td>无</td>
+            {% endifequal %}
+        </tr>
+        {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+    <h4 class="sub-header">未添加任何应用</h4>
+{% endif %}
+{% endblock %}

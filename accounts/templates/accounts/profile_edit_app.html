@@ -1,0 +1,65 @@
+{% extends "accounts/profile_base.html" %}
+
+{% block right_content %}
+<h1 class="page-header">编辑应用</h1>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">应用信息</h3>
+    </div>
+    <div class="panel-body">应用名称：{{ apk_mark.app_name }}</div>
+    <div class="panel-body">应用包名：{{ apk_mark.package_name }}</div>
+    {% ifequal apk_mark.version_code 0 %}
+        <div class="panel-body">最新版本：还未提交第一个版本</div>
+    {% else %}
+        <div class="panel-body">最新版本：{{ apk_mark.version_code }}</div>
+    {% endifequal %}
+    {% if apk_mark.brief %}
+        <div class="panel-body">应用简介：{{ apk_mark.brief }}</div>
+    {% endif %}
+</div>
+
+<h2 class="sub-header">成员列表</h2>
+<form class="navbar-form navbar-left" role="search" method='post' action="." style="padding-left: 0px ">
+    {% csrf_token %}
+    {% if form.errors.username %}
+        {% for err in form.errors.username %}
+            <p style="color: red">* {{ err }}</p>
+        {% endfor %}
+    {% endif %}
+    <div class="form-group">
+        <input type="text" name="username" id="username" required="" class="form-control" placeholder="用户名">
+    </div>
+    <button type="submit" class="btn btn-primary">添加成员</button>
+</form>
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>用户名</th>
+        <th>身份</th>
+        <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+        {% for user in user_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ user.user }}</td>
+            {% ifequal user.identity 'O' %}
+                <td>管理员</td>
+                <td>无</td>
+            {% else %}
+                <td>成员</td>
+                <td>
+                    <a style="color: black" href="{% url 'accounts:remove_app_user' apk_mark.package_name user.user %}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </td>
+            {% endifequal %}
+        </tr>
+        {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

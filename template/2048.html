@@ -1,103 +1,92 @@
-<!DOCTYPE html>
-<!-- saved from url=(0038)http://gabrielecirulli.github.io/2048/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta charset="utf-8">
-  <title>2048</title>
+{% extends "base.html" %}
 
-  
-  
-  <!-- Bootstrap core CSS -->
-  <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap theme -->
-  <link href="{{ STATIC_URL }}css/bootstrap-theme.min.css" rel="stylesheet">
-  <!-- Custom styles for this template -->
-  <link href="{{ STATIC_URL }}css/starter-template.css" rel="stylesheet">
+{% block title %}2048{% endblock %}
 
-  <link href="{{ STATIC_URL }}2048/main.css" rel="stylesheet" type="text/css">
+{% block head %}
+<link href="{{ STATIC_URL }}2048/main.css" rel="stylesheet" type="text/css">
+<link rel="apple-touch-icon" href="h{{ STATIC_URL }}ico/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+<meta name="format-detection" content="telephone=no">
+<meta property="og:title" content="2048 game">
+<meta property="og:site_name" content="2048 game">
+<meta property="og:description" content="Join the numbers and get to the 2048 tile! Careful: this game is extremely addictive!">
+<meta property="og:image" content="http://gabrielecirulli.github.io/2048/meta/og_image.png">
+{% endblock %}
 
-
-  <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.ico">
-  <link rel="apple-touch-icon" href="h{{ STATIC_URL }}ico/favicon.ico">
-
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="format-detection" content="telephone=no">
-
-  <meta property="og:title" content="2048 game">
-  <meta property="og:site_name" content="2048 game">
-  <meta property="og:description" content="Join the numbers and get to the 2048 tile! Careful: this game is extremely addictive!">
-  <meta property="og:image" content="http://gabrielecirulli.github.io/2048/meta/og_image.png">
-</head>
-<body data-twttr-rendered="true">
-
-  {% include "header.html" %}
-
-  <div class="container2048">
+{% block content %}
+<div class="container2048">
     <div class="heading2048">
-      <h1 class="title2048">2048</h1>
-      <div class="scores-container">
-        <div class="score-container">0</div>
-        <div class="best-container">0</div>
-      </div>
+        <h1 class="title2048">2048</h1>
+        <div class="scores-container">
+            <div class="score-container">0</div>
+            <div class="best-container">0</div>
+        </div>
     </div>
 
     <div class="above-game">
-      <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
-      <a class="restart-button">New Game</a>
+        <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+        <a class="restart-button">New Game</a>
     </div>
 
     <div class="game-container">
-      <div class="game-message">
-        <p></p>
-        <div class="lower">
-	        <a class="keep-playing-button">Keep going</a>
-          <a class="retry-button">Try again</a>
-          <div class="score-sharing"></div>
-          <div class="mailing-list">
-            <!-- MailChimp Signup Form -->
-            <form action="http://gabrielecirulli.us8.list-manage.com/subscribe/post?u=991201206817cfb4e4247ed6c&id=7928ea817b" method="post" name="mc-embedded-subscribe-form" class="mailing-list-form" target="_blank">
+        <div class="game-message">
+            <p></p>
+            <div class="lower">
+                <a class="keep-playing-button">Keep going</a>
+                <a class="retry-button">Try again</a>
+                <div class="score-sharing"></div>
+                <div class="mailing-list">
+                    <!-- MailChimp Signup Form -->
+                    <form action="http://gabrielecirulli.us8.list-manage.com/subscribe/post?u=991201206817cfb4e4247ed6c&id=7928ea817b" method="post" name="mc-embedded-subscribe-form" class="mailing-list-form" target="_blank">
 
-              <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-              <div style="position: absolute; left: -9999px;">
-                <input type="text" name="b_991201206817cfb4e4247ed6c_7928ea817b" value="">
-              </div>
-            </form>
-          </div>
+                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div style="position: absolute; left: -9999px;">
+                            <input type="text" name="b_991201206817cfb4e4247ed6c_7928ea817b" value="">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div class="grid-container">
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
+        <div class="grid-container">
+            <div class="grid-row">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
         </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-      </div>
 
-      <div class="tile-container"><div class="tile tile-2 tile-position-3-3 tile-new"><div class="tile-inner">2</div></div><div class="tile tile-2 tile-position-4-3 tile-new"><div class="tile-inner">2</div></div></div>
+        <div class="tile-container">
+            <div class="tile tile-2 tile-position-3-3 tile-new">
+                <div class="tile-inner">2</div>
+            </div>
+            <div class="tile tile-2 tile-position-4-3 tile-new">
+                <div class="tile-inner">2</div>
+            </div>
+        </div>
     </div>
 
     <p class="game-explanation">
@@ -106,22 +95,16 @@
     <p>
     Created by <a class="hhh" href="http://gabrielecirulli.com/">Gabriele Cirulli.</a> Based on <a class="hhh" href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio</a> and conceptually similar to <a class="hhh" href="http://asherv.com/threes/" target="_blank">Threes by Asher Vollmer.</a>
     </p>
-  </div>
+</div>
 
-  <script src="{{ STATIC_URL }}2048/bind_polyfill.js"></script>
-  <script src="{{ STATIC_URL }}2048/classlist_polyfill.js"></script>
-  <script src="{{ STATIC_URL }}2048/animframe_polyfill.js"></script>
-  <script src="{{ STATIC_URL }}2048/keyboard_input_manager.js"></script>
-  <script src="{{ STATIC_URL }}2048/html_actuator.js"></script>
-  <script src="{{ STATIC_URL }}2048/grid.js"></script>
-  <script src="{{ STATIC_URL }}2048/tile.js"></script>
-  <script src="{{ STATIC_URL }}2048/local_storage_manager.js"></script>
-  <script src="{{ STATIC_URL }}2048/game_manager.js"></script>
-  <script src="{{ STATIC_URL }}2048/application.js"></script>
-
-  <script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
-  <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-
-
-</body>
-</html>
+<script src="{{ STATIC_URL }}2048/bind_polyfill.js"></script>
+<script src="{{ STATIC_URL }}2048/classlist_polyfill.js"></script>
+<script src="{{ STATIC_URL }}2048/animframe_polyfill.js"></script>
+<script src="{{ STATIC_URL }}2048/keyboard_input_manager.js"></script>
+<script src="{{ STATIC_URL }}2048/html_actuator.js"></script>
+<script src="{{ STATIC_URL }}2048/grid.js"></script>
+<script src="{{ STATIC_URL }}2048/tile.js"></script>
+<script src="{{ STATIC_URL }}2048/local_storage_manager.js"></script>
+<script src="{{ STATIC_URL }}2048/game_manager.js"></script>
+<script src="{{ STATIC_URL }}2048/application.js"></script>
+{% endblock %}
