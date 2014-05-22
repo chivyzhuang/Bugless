@@ -1,8 +1,7 @@
 # -*e coding: utf-8 -*-
-import os, bsdiff4
-from hashlib import md5
+import bsdiff4
 from bsdiff.models import ApkPackage, Patch, ApkMark
-from gfunction.operation import get_apk_dir_path, get_patch_dir_path, get_apk_path, get_patch_path
+from gfunction.operation import get_apk_path, get_patch_path, get_file_md5
 
 
 def check_if_apk_valid(package_name, version_code):
@@ -45,10 +44,6 @@ def handle_uploaded_apk_file(f, package_name, version_code):
                 version_code=version_code,
                 target_mark=update_apk_mark(package_name, version_code),
         )
-    # mybe create dir
-    dir_path = get_apk_dir_path(package_name)
-    if not os.path.isdir(dir_path):
-        os.makedirs(dir_path)
     # write the file
     apk_pkg.file_path = get_apk_path(package_name, version_code)
     with open(apk_pkg.file_path, 'wb+') as destination:
@@ -61,14 +56,6 @@ def handle_uploaded_apk_file(f, package_name, version_code):
     apk_pkg.save()
     # generate patch
     generate_patch(apk_pkg, is_replace)
-
-
-def get_file_md5(file_path):
-    m = md5()
-    src_file = open(file_path, 'rb')
-    m.update(src_file.read())
-    src_file.close()
-    return m.hexdigest()
 
 
 def generate_patch(apk_pkg, is_replace):
@@ -111,10 +98,6 @@ def get_patch(
         pre_version_code,
         version_code,
         new_file_path):
-    # mybe create dir
-    dir_path = get_patch_dir_path(package_name)
-    if not os.path.isdir(dir_path):
-        os.makedirs(dir_path)
     # generate patch
     old_file_path = get_apk_path(package_name, pre_version_code)
     patch_file_path = get_patch_path(package_name, pre_version_code, version_code)

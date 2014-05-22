@@ -23,7 +23,7 @@ def check_update(message):
         except Patch.DoesNotExist:
             answer.type = updatemessage_pb2.APK
             answer.url = reverse(
-                    'bsdiff:get_apk', 
+                    'download:get_apk', 
                     args = [
                         apk.package_name,
                         apk.version_code
@@ -33,7 +33,7 @@ def check_update(message):
             return answer.SerializeToString()
         answer.type = updatemessage_pb2.PATCH
         answer.url = reverse(
-                'bsdiff:get_patch',
+                'download:get_patch',
                 args = [
                     apk.package_name,
                     '%s_%s' % (patch.pre_version_code, apk.version_code)

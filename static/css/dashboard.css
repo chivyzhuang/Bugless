@@ -126,3 +126,17 @@ body {
 .main .page-header {
   margin-top: 0;
 }
+
+
+/*
+* password
+*
+*/
+.form-control-sm {
+  max-width: 250px;
+}
+
+.errorlist {
+  color: red;
+  padding-left: 20px;
+}

@@ -1,0 +1,75 @@
+/*
+* java bug detail
+* --------------------------------------------------
+*/
+.bug-title p {
+  font-size: 20px;
+  color: #999;
+}
+
+
+hr {
+  border-top: 1px solid #bbbbbb
+}
+
+
+.nav-tabs {
+  border-bottom: 1px solid #bbbbbb;
+}
+
+.nav-tabs>li.active>a {
+  border: 1px solid #bbbbbb;
+  border-bottom-color: transparent;
+}
+
+.nav-tabs>li.active>a:hover {
+  border: 1px solid #bbbbbb;
+  border-bottom-color: transparent;
+}
+
+
+.bug-info-line li {
+  width: 45%;
+}
+
+.main-data {
+  color: #515151;
+  font-weight: bold;
+  -webkit-margin-after: 0;
+}
+
+.bug-detail {
+  border-top: none;
+  border-left: 1px #bbbbbb solid;
+  border-bottom: 1px #bbbbbb solid;
+  border-right: 1px #bbbbbb solid;
+  border-radius: 0;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.bug-detail > pre {
+  padding: 0;
+  border: none;
+  background-color: #fff;
+}
+
+
+.list-group {
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 10px;
+}
+
+
+.bug-info li{
+  margin: 14px 0 14px;
+}
+
+.bug-info li > p{
+  margin-bottom: 0;
+}
+
+.bug-info-line .right {
+  border-left: 1px #bbbbbb solid;
+}

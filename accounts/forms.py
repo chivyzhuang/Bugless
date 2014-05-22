@@ -22,7 +22,7 @@ class RegisterForm(forms.Form):
         raise forms.ValidationError(_(u"该昵称已经被使用"));
 
     def clean_repassword(self):
-        '''验证email'''
+        '''验证两次输入密码'''
         password = self.cleaned_data["password"]
         repassword = self.cleaned_data["repassword"]
         if password and repassword and password != repassword:
@@ -40,6 +40,19 @@ class RegisterForm(forms.Form):
 class AppAddForm(forms.Form):
 	pkgname = forms.CharField(label=_(u"应用包名"))
 
+
+class ResetPasswordForm(forms.Form):
+    oldpassword = forms.CharField(label=_(u"旧密码"))
+    newpassword1 = forms.CharField(label=_(u"新密码"))
+    newpassword2 = forms.CharField(label=_(u"确认新密码"))
+
+    def clean_newpassword2(self):
+        '''验证两次输入新密码'''
+        newpassword1 = self.cleaned_data["newpassword1"]
+        newpassword2 = self.cleaned_data["newpassword2"]
+        if newpassword1 and newpassword2 and newpassword1 != newpassword2:
+            raise forms.ValidationError(_(u"两次新密码输入不一致"));
+        return newpassword2;
 
 class AppUserAddForm(forms.Form):
     username = forms.CharField(label=_(u"用户名"))

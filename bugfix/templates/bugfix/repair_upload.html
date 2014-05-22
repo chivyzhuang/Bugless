@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}缺陷修复{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-header">上传修复方案</h1>
+    <form rrole="form" enctype="multipart/form-data" method="post" action="." style="width: 50%" align="left">
+        {% csrf_token %}
+        {% if error %}
+            <h3 style="color:red">{{ error }}</h3>
+        {% endif %}
+        <h4>选择一种修复方法</h4>
+        <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary active">
+                <input type="radio" name="options" value="update" checked> 修复包方式
+            </label>
+            <label class="btn btn-primary">
+                <input type="radio" name="options" value="repair"> 应用更新方式
+            </label>
+        </div>
+        <br>
+        <br>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon">描述信息</span>
+            <textarea style="min-height: 200px" styletype="text" class="form-control" name="brief" placeholder="请输入缺陷修复方案的描述信息，可不填"></textarea>
+        </div>
+        {% if form.errors.file %}
+            <p style="color: red">你必须选择一个文件</p>
+        {% endif %}
+        <p>
+            {{ form.docfile.errors }}
+            {{ form.file }}
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+    </form>
+</div> 
+{% endblock %}

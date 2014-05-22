@@ -32,10 +32,10 @@
                 {% else %}
                 <li><a href="{% url 'accounts:profile_welcome' %}">个人信息</a></li>
                 {% endifequal %}
-                {% ifequal sidebar_index 'chang_pwd' %}
-                <li class="active"><a href="{% url 'accounts:profile_welcome' %}">更改密码</a></li>
+                {% ifequal sidebar_index 'reset_pwd' %}
+                <li class="active"><a href="{% url 'accounts:reset_pwd' %}">更改密码</a></li>
                 {% else %}
-                <li><a href="{% url 'accounts:profile_welcome' %}">更改密码</a></li>
+                <li><a href="{% url 'accounts:reset_pwd' %}">更改密码</a></li>
                 {% endifequal %}
             </ul>
         </div>

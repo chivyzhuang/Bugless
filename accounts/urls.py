@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.views import login
-from views import process_logout, process_login, register, add_app, remove_app_user
+from views import process_logout, process_login, register, add_app, remove_app_user, reset_pwd
 from views import ProfileWelcomeVive, AppEditView, ManageAppVive
 
 
@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^register/$', register, name='register'),
     # prifile
     url(r'^profile/$', ProfileWelcomeVive.as_view(), name='profile_welcome'),
+    url(r'^profile/reset_pwd/$', reset_pwd, name='reset_pwd'),
     url(r'^profile/add_app/$', add_app, name='add_app'),
     url(r'^profile/edit_app/list/$', ManageAppVive.as_view(), name='app_list'),
     url(r'^profile/edit_app/panel/(?P<pkg_name>.+)/$', AppEditView.as_view(), name='edit_app'),

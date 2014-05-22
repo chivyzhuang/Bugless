@@ -3,11 +3,12 @@
 {% block title %}应用更新{% endblock %}
 
 {% block head %}
-<meta http-equiv="refresh" content="3">
+<meta http-equiv="refresh" content="5" url="{{ url }}">
 {% endblock %}
 
 
 {% block content %}
 <div class="container" align="center">
-<h2 class="sub-header">上传Apk文件成功</h2>
+<h2 class="sub-header">{{ title }}，原因：</h2>
+<h3 class="sub-header" style="color:red">{{ reason }}</h3>
 {% endblock %}

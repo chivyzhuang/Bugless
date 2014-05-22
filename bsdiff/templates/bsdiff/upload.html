@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container" align="center">
-    <form role="form" enctype="multipart/form-data" method="post" action="{% url 'bsdiff:upload_file' %}" style="width: 50%" align="left">
+    <form role="form" enctype="multipart/form-data" method="post" action="." style="width: 50%" align="left">
         {% csrf_token %}
         <h2 class="form-signin-heading">上传Apk文件</h2>
         <div class="input-group input-group-lg">
@@ -21,7 +21,7 @@
             {{ form.docfile.errors }}
             {{ form.file }}
         </p>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">上传</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">上传</button>
     </form>
 </div> 
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block right_content %}
 <h1 class="page-header">添加应用</h1>
 <div class="container">
-    <form role="form" method="post" action="{% url 'accounts:add_app' %}" style="width: 50%" align="left">
+    <form role="form" method="post" action="." style="width: 50%" align="left">
         {% csrf_token %}
         {% if form.errors.pkgname %}
         <p style="color:red">这个应用已经被创建，请换一个包名</p>

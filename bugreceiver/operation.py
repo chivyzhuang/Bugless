@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import bugreport_pb2, time
+import bugreport_pb2
 from django.utils import timezone
 from bugreceiver.models import JavaBug, NativeBug
 from bsdiff.models import ApkPackage
@@ -18,6 +18,7 @@ def process_java_bug_report(report, tag):
                 tag=tag.tag
         )
         record.count += tag.count
+        record.date=timezone.now()
         record.save()
         return record.is_complete == 'Y'
     except JavaBug.DoesNotExist:

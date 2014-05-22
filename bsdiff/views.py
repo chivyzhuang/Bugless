@@ -3,12 +3,11 @@ import string
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponse
 from django.views import generic
-from bsdiff.models import ApkPackage, Patch
 from bsdiff.forms import UploadFileForm
 from bsdiff.operation import handle_uploaded_apk_file, check_if_apk_valid
 from django.utils.decorators import method_decorator
+from django.core.urlresolvers import reverse
 
 
 @login_required
@@ -23,8 +22,8 @@ def upload_file(request):
                 )
             if not is_valid:
                 return render_to_response(
-                        'bsdiff/upload_fail.html',
-                        {'reason': reason},
+                        'upload_fail.html',
+                        {'reason': reason, 'title': '上传Apk文件', 'url': reverse("bsdiff:upload_file")},
                         context_instance=RequestContext(request)
                         )
             handle_uploaded_apk_file(
@@ -33,7 +32,8 @@ def upload_file(request):
                     string.atoi(request.POST['version'])
             )
             return render_to_response(
-                    'bsdiff/upload_success.html',
+                    'upload_success.html',
+                    {'title': '上传Apk文件成功', 'url': reverse("bsdiff:upload_file")},
                     context_instance=RequestContext(request)
                     )
     else:
@@ -74,11 +74,3 @@ class PatchDetail(generic.ListView):
             for apk in apkmark.apkpackage_set.all():
                 list += apk.patch_set.all()
         return list
-
-
-def upload_success(request):
-    return HttpResponse("Upload success.")
-
-
-def upload_fail(request, reason):
-    return HttpResponse('Upload failed, because:\n' + reason)

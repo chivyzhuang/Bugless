@@ -1,31 +1,133 @@
 {% extends "base.html" %}
 
-{% block title %}缺陷查询{% endblock %}
+{% block title %}缺陷详情{% endblock %}
+
+{% block head %}
+<link href="{{ STATIC_URL }}css/bug_detail.css" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
-<div class="container" align="center">
-	<h2 class="sub-header">缺陷详情</h2>
-
-	<div class="jumbotron" align="left">
-		<h3><span class="label label-info">发生次数</span></h3>
-        <pre><font size="3">{{ java_bug.count}}</pre>
-		<h3><span class="label label-info">错误摘要</span></h3>
-        <pre><font size="3">{{ java_bug.exception_type }} in {{ java_bug.source_class }}.{{ java_bug.source_method }}()</pre>
-        <h3><span class="label label-info">详细信息</span></h3>
-        <pre><font size="2">{{ java_bug.report_content}}</pre>
-        <h3><span class="label label-info">是否完成修复</span></h3>
-        <pre><font size="2">{{ java_bug.is_fix}}</pre>
-        <h3><span class="label label-info">首次出现时间</span></h3>
-        <pre><font size="2">{{ java_bug.date}}</pre>
-        <h3><span class="label label-info">手机型号</span></h3>
-        <pre><font size="2">{{ java_bug.model}}</pre>
-        <h3><span class="label label-info">手机系统版本</span></h3>
-        <pre><font size="2">{{ java_bug.system_sdk}}</pre>
-        <h3><span class="label label-info">应用包名</span></h3>
-        <pre><font size="2">{{ java_bug.apk.package_name}}</pre>
-        <h3><span class="label label-info">应用版本</span></h3>
-        <pre><font size="2">{{ java_bug.apk.version_code}}</pre>
+<div class="container">
+    <div class="bug-title">
+        <h3 style="margin-bottom: 5px">{{ java_bug.exception_type }} 
+            {% ifequal java_bug.is_fix 'N' %}
+                <span class="label label-danger">未修复</span>
+            {% else %}
+                <span class="label label-success">已修复</span>
+            {% endifequal %}
+        </h3>
+        <p>in {{ java_bug.source_class }}.{{ java_bug.source_method }}()</p>
     </div>
-		
+    <hr style="margin-top: 12px; margin-bottom: 0">
+    <ul class="list-inline bug-info-line" style="margin-top: 12px; margin-bottom: 12px">
+        <li >
+            <p style="margin-bottom: 0">上报总次数</p>
+            <p class="main-data">{{ java_bug.count}}</p>
+        </li>
+        <li class="right">
+            <p style="margin-bottom: 0">最后上报时间</p>
+            <p class="main-data">{{ java_bug.date }}</p>    
+        </li>
+    </ul>
+    <hr style="margin-top: 0; margin-bottom: 12px">
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#traces" data-toggle="tab">堆栈跟踪</a></li>
+        <li class=""><a href="#appendinfo" data-toggle="tab">附加信息</a></li>
+        {% ifequal java_bug.is_fix 'N' %}
+            {% if pk %}
+                <a class="navbar-right btn btn-danger" href="{% url 'bugfix:java_bug_repair' pk %}"><span class="glyphicon glyphicon-wrench"></span> 提交修复方案</a>
+            {% endif %}
+        {% else %}
+            <a class="navbar-right btn btn-success" href="#repair" data-toggle="tab"><span class="glyphicon glyphicon-wrench"></span> 查看修复方案</a>
+        {% endifequal %}
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="bug-detail tab-pane fade active in" id="traces">
+            <pre><font size="2">{{ java_bug.report_content}}</font></pre>
+        </div><!-- .bug-traces -->
+        <div class="bug-detail tab-pane fade" id="appendinfo">
+            <p><a class="btn btn-default" href="{% url 'download:get_apk' java_bug.apk.package_name java_bug.apk.version_code %}" role="button">应用包下载 »</a></p>
+            <div class="row">
+                <div class="list-group">
+                    <p href="#" class="list-group-item list-group-item-info">
+                    关联应用信息
+                    </p>
+                    <p href="#" class="list-group-item">应用包名：{{ java_bug.apk.package_name }}</p>
+                    <p href="#" class="list-group-item">应用版本：{{ java_bug.apk.version_code }}</p>
+                </div>
+                <div class="list-group">
+                    <p href="#" class="list-group-item list-group-item-info">
+                    关联设备信息
+                    </p>
+                    <p href="#" class="list-group-item">手机型号：{{ java_bug.model }}</p>
+                    <p href="#" class="list-group-item">系统版本：{{ java_bug.system_sdk }}</p>
+                </div>
+          </div>
+        </div><!-- .bug-userinfo -->
+        <div class="bug-detail tab-pane fade" id="repair">
+            {% ifnotequal java_bug.is_fix 'N' %}
+                <p>
+                    {% ifequal java_bug.is_fix 'U' %}
+                        <a class="btn btn-default" href="{% url 'download:get_file' java_bug.repair_package.file_path %}" role="button">更新应用包下载 »</a>
+                    {% else %}
+                        <a class="btn btn-default" href="{% url 'download:get_file' java_bug.repair_package.file_path %}" role="button">修复包下载 »</a>
+                    {% endifequal %}
+                    {% if java_bug.is_repair_published %}
+                        <a class="btn btn-warning navbar-right" href="{% url 'bugfix:java_bug_repair_publish' pk %}" role="button">取消发布</a>
+                    {% else %}
+                        <a class="btn btn-primary navbar-right" href="{% url 'bugfix:java_bug_repair_publish' pk %}" role="button">发布</a>
+                    {% endif %}
+                </p>
+                <div class="row">
+                    <div class="list-group">
+                        <p href="#" class="list-group-item list-group-item-info">
+                        详细信息
+                        </p>
+                        {% ifequal java_bug.is_fix 'U' %}
+                            <p href="#" class="list-group-item">修复方式：应用更新</p>
+                        {% else %}
+                            <p href="#" class="list-group-item">修复方式：修复包</p>
+                        {% endifequal %}
+                        {% if java_bug.is_repair_published %}
+                            <p href="#" class="list-group-item">发布状态：已发布</p>
+                        {% else %}
+                            <p href="#" class="list-group-item">发布状态：未发布</p>
+                        {% endif %}
+                    </div>
+                    {% if java_bug.repair_package.brief %}
+                        <div class="list-group">
+                            <p href="#" class="list-group-item list-group-item-info">
+                            描述信息
+                            </p>
+                            <p href="#" class="list-group-item">{{ java_bug.repair_package.brief }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <p class="text-right">
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deletePrompt">删除修复方案</button>
+                </p>
+
+            {% endifnotequal %}
+        </div>
+    </div>
+</div><!-- /.container -->
+
+<div class="modal fade" id="deletePrompt" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                删除后无法恢复，请确认是否删除修复方案？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <a class="btn btn-danger" href="{% url 'bugfix:java_bug_repair_remove' pk %}" role="button">我确定</a>
+            </div>
+        </div>
+    </div>
 </div>
+
 {% endblock %}

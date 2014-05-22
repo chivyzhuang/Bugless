@@ -13,11 +13,12 @@ from django.utils.http import is_safe_url
 from django.contrib.sites.models import get_current_site
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.contrib import auth
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from forms import RegisterForm, AppAddForm, AppUserAddForm
+from forms import RegisterForm, AppAddForm, AppUserAddForm, ResetPasswordForm
 from bsdiff.models import ApkMark, Management
 from django.views import generic
 from django.forms.util import ErrorList
@@ -102,6 +103,33 @@ class AppEditView(TemplateView):
             {'sidebar_index': 'manage_app', 'form': form, 'apk_mark': apk_mark, 'user_list': user_list},
             context_instance = RequestContext(request)
         )
+
+
+@login_required
+def reset_pwd(request):
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST.copy())
+        if form.is_valid():
+            oldpassword = form.cleaned_data["oldpassword"]
+            user = auth.authenticate(username=request.user.username, password=oldpassword)
+            if user == request.user:
+                newpassword2 = form.cleaned_data["newpassword2"]
+                user.set_password(newpassword2)
+                user.save()
+                return render_to_response(
+                    'accounts/profile_reset_password.html',
+                    {'form': form, 'sidebar_index': 'reset_pwd', 'reset_success': 'Y'},
+                    context_instance=RequestContext(request)
+                    )
+            error_msg = ["原密码错误"]
+            form.errors['oldpassword'] = ErrorList(error_msg)
+    else:
+        form = ResetPasswordForm()
+    return render_to_response(
+            'accounts/profile_reset_password.html',
+            {'form': form, 'sidebar_index': 'reset_pwd'},
+            context_instance=RequestContext(request)
+            )
 
 
 @login_required
