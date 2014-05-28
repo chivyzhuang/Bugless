@@ -4,14 +4,14 @@ from time import gmtime, strftime
 
 
 def get_apk_dir_path(package_name):
-	dir_path = 'media/apk/%s/' % (package_name)
+	dir_path = 'media/apk/%s_/' % (package_name)
 	if not os.path.isdir(dir_path):
 		os.makedirs(dir_path)
 	return dir_path
 
 
 def get_patch_dir_path(package_name):
-	dir_path = 'media/patch/%s/' % (package_name)
+	dir_path = 'media/patch/%s_/' % (package_name)
 	if not os.path.isdir(dir_path):
 		os.makedirs(dir_path)
 	return dir_path

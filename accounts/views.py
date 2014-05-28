@@ -19,7 +19,7 @@ from django.shortcuts import render_to_response
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from forms import RegisterForm, AppAddForm, AppUserAddForm, ResetPasswordForm
-from bsdiff.models import ApkMark, Management
+from bsdiff.models import ApkMark, Management, ApkPackage
 from django.views import generic
 from django.forms.util import ErrorList
 from django.views.generic import TemplateView
@@ -72,10 +72,27 @@ class AppEditView(TemplateView):
     def get(self, request, pkg_name):
         apk_mark = ApkMark.objects.get(package_name=pkg_name)
         form = AppUserAddForm()
-        user_list = Management.objects.filter(mark=apk_mark)
+        mamanger_list = Management.objects.filter(mark=apk_mark)
+        is_owner = False
+        for mamanger in mamanger_list:
+            if mamanger.user == request.user:
+                if mamanger.identity == 'O':
+                    is_owner = True
+        apk = None
+        try:
+            apk_list = ApkPackage.objects.filter(package_name=pkg_name).order_by('-version_code')
+            if len(apk_list) > 0:
+                apk = apk_list[0]
+        except ApkPackage.DoesNotExist:
+            pass
         return render_to_response(
             'accounts/profile_edit_app.html',
-            {'sidebar_index': 'manage_app', 'form': form, 'apk_mark': apk_mark, 'user_list': user_list},
+            {'sidebar_index': 'manage_app', 
+            'form': form, 
+            'apk_mark': apk_mark, 
+            'user_list': mamanger_list, 
+            'apk': apk,
+            'is_owner': is_owner},
             context_instance = RequestContext(request)
         )
 
@@ -97,10 +114,27 @@ class AppEditView(TemplateView):
                     management.save()
         else:
             form = AppUserAddForm()
-        user_list = Management.objects.filter(mark=apk_mark)
+        mamanger_list = Management.objects.filter(mark=apk_mark)
+        is_owner = False
+        for mamanger in mamanger_list:
+            if mamanger.user == request.user:
+                if mamanger.identity == 'O':
+                    is_owner = True
+        apk = None
+        try:
+            apk_list = ApkPackage.objects.filter(package_name=pkg_name).order_by('-version_code')
+            if len(apk_list) > 0:
+                apk = apk_list[0]
+        except ApkPackage.DoesNotExist:
+            pass
         return render_to_response(
             'accounts/profile_edit_app.html',
-            {'sidebar_index': 'manage_app', 'form': form, 'apk_mark': apk_mark, 'user_list': user_list},
+            {'sidebar_index': 'manage_app', 
+            'form': form, 
+            'apk_mark': apk_mark, 
+            'user_list': mamanger_list,
+            'apk': apk,
+            'is_owner': is_owner},
             context_instance = RequestContext(request)
         )
 

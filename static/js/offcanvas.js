@@ -1,5 +1,9 @@
-$(document).ready(function () {
-  $('[data-toggle=offcanvas]').click(function () {
-    $('.row-offcanvas').toggleClass('active');
-  });
-});
+function initial(){
+	$('[data-toggle=popover]').popover();
+
+	$('[data-toggle=offcanvas]').click(function () {
+		$('.row-offcanvas').toggleClass('active');
+	});
+}
+
+$(document).ready(initial);

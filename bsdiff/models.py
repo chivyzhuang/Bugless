@@ -27,6 +27,7 @@ class ApkPackage(models.Model):
     file_path = models.CharField(max_length=100)
     file_md5 = models.CharField(max_length=32)
     target_mark = models.ForeignKey(ApkMark, blank=False)
+    is_published = models.BooleanField(default=False)
 
     def delete(self):
         try:

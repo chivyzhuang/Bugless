@@ -8,4 +8,6 @@ urlpatterns = patterns('',
     url(r'^detail/apk/$', views.ApkDetail.as_view(), name='detail_apk'),
     # detail of patchs
     url(r'^detail/patch/$', views.PatchDetail.as_view(), name='detail_patch'),
+    #
+    url(r'^publish/(?P<pk>\d+)/$', views.publish_apk, name='publish_apk'),
 )

@@ -5,9 +5,19 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views import generic
 from bsdiff.forms import UploadFileForm
-from bsdiff.operation import handle_uploaded_apk_file, check_if_apk_valid
+from bsdiff.operation import handle_uploaded_apk_file, check_if_apk_valid, handle_publish_apk
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+
+
+@login_required
+def publish_apk(request, pk):
+    apk = handle_publish_apk(pk)
+    if apk == None:
+        return HttpResponseRedirect(reverse('bsdiff:detail_apk'))
+    else:
+        return HttpResponseRedirect(reverse('accounts:edit_app', args=(apk.package_name,)))
 
 
 @login_required

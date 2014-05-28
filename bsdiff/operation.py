@@ -4,6 +4,16 @@ from bsdiff.models import ApkPackage, Patch, ApkMark
 from gfunction.operation import get_apk_path, get_patch_path, get_file_md5
 
 
+def handle_publish_apk(pk):
+    try:
+        apk = ApkPackage.objects.get(pk=pk)
+    except ApkPackage.DoesNotExist:
+        return None
+    apk.is_published = True
+    apk.save()
+    return apk
+
+
 def check_if_apk_valid(package_name, version_code):
     if version_code <= 0:
         return False, '应用的版本号必须大于0'

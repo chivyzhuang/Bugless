@@ -6,7 +6,7 @@ from bugfix.models import FixPackage
 class JavaBug(models.Model):
     count = models.IntegerField(default=1)
     apk = models.ForeignKey(ApkPackage)
-    report_content = models.TextField(blank=True, null=True)
+    report_content = models.TextField()
     exception_type = models.CharField(max_length=50)
     source_class = models.CharField(max_length=50)
     source_method = models.CharField(max_length=50)

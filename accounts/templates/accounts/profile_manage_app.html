@@ -12,7 +12,7 @@
         <th>应用包名</th>
         <th>最新版本号</th>
         <th>身份</th>
-        <th>操作</th>
+        <th></th>
     </tr>
   </thead>
   <tbody>
@@ -28,15 +28,14 @@
             {% endifequal %}
             {% ifequal management.identity 'O' %}
                 <td>管理员</td>
-                <td>
-                    <a style="color: black" href="{% url 'accounts:edit_app' management.mark.package_name %}">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </a>
-                </td>
             {% else %}
                 <td>成员</td>
-                <td>无</td>
             {% endifequal %}
+            <td>
+                <a style="color: black" href="{% url 'accounts:edit_app' management.mark.package_name %}">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </a>
+            </td>
         </tr>
         {% endfor %}
   </tbody>

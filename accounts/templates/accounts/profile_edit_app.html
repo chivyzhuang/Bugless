@@ -9,28 +9,54 @@
     <div class="panel-body">应用名称：{{ apk_mark.app_name }}</div>
     <div class="panel-body">应用包名：{{ apk_mark.package_name }}</div>
     {% ifequal apk_mark.version_code 0 %}
-        <div class="panel-body">最新版本：还未提交第一个版本</div>
+        <div class="panel-body">最新版本：<a href="{% url 'bsdiff:upload_file' %}">还未提交第一个版本</a></div>
     {% else %}
         <div class="panel-body">最新版本：{{ apk_mark.version_code }}</div>
     {% endifequal %}
-    {% if apk_mark.brief %}
-        <div class="panel-body">应用简介：{{ apk_mark.brief }}</div>
+    {% if apk %}
+        {% if apk.is_published %}
+            <div class="panel-body">发布状态：<a class="btn btn-info disabled">已经发布</a></div>
+        {% else %}
+            {% if is_owner %}
+                <div class="panel-body">
+                    发布状态：
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#publishPrompt">发布应用</button>
+                </div>
+            {% else %}
+                <div class="panel-body">
+                    发布状态：
+                    <button type="button" class="btn btn-primary" data-container="body" data-toggle="popover" data-placement="top" data-content="只有管理员可以发布应用！">发布应用 </button>
+                </div>
+            {% endif %}
+        {% endif %}
     {% endif %}
 </div>
 
-<h2 class="sub-header">成员列表</h2>
-<form class="navbar-form navbar-left" role="search" method='post' action="." style="padding-left: 0px ">
-    {% csrf_token %}
-    {% if form.errors.username %}
-        {% for err in form.errors.username %}
-            <p style="color: red">* {{ err }}</p>
-        {% endfor %}
-    {% endif %}
-    <div class="form-group">
-        <input type="text" name="username" id="username" required="" class="form-control" placeholder="用户名">
+{% if apk_mark.brief %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">应用简介</h3>
+        </div>
+        <div class="panel-body">{{ apk_mark.brief }}</div>
     </div>
-    <button type="submit" class="btn btn-primary">添加成员</button>
-</form>
+{% endif %}
+
+<h2 class="sub-header">成员列表</h2>
+
+{% if is_owner %}
+    <form class="navbar-form navbar-left" role="search" method='post' action="." style="padding-left: 0px ">
+        {% csrf_token %}
+        {% if form.errors.username %}
+            {% for err in form.errors.username %}
+                <p style="color: red">* {{ err }}</p>
+            {% endfor %}
+        {% endif %}
+        <div class="form-group">
+            <input type="text" name="username" id="username" required="" class="form-control" placeholder="用户名">
+        </div>
+        <button type="submit" class="btn btn-primary">添加成员</button>
+    </form>
+{% endif %}
 <div class="table-responsive">
 <table class="table table-striped">
   <thead>
@@ -61,5 +87,23 @@
         {% endfor %}
   </tbody>
 </table>
+</div>
+
+<div class="modal fade" id="publishPrompt" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                应用的指定版本一经发布就无法取消，请确认是否发布？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <a class="btn btn-danger" href="{% url 'bsdiff:publish_apk' apk.pk %}" role="button">我确定</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
