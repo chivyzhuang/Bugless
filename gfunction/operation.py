@@ -43,8 +43,8 @@ def get_apk_path(package_name, version_code):
 	return get_apk_dir_path(package_name) + '%s.apk' % version_code
 
 
-def get_patch_path(package_name, pre_version_code, version_code):
-	return get_patch_dir_path(package_name) + '%s_%s' % (pre_version_code, version_code)
+def get_patch_path(package_name, version_ft):
+	return get_patch_dir_path(package_name) + version_ft
 
 
 def get_file_md5(file_path):
